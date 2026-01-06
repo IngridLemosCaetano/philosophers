@@ -6,7 +6,7 @@
 #    By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/06 10:22:37 by ingrid            #+#    #+#              #
-#    Updated: 2026/01/06 10:34:42 by ingrid           ###   ########.fr        #
+#    Updated: 2026/01/06 11:08:25 by ingrid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,24 +17,26 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRCS = main.c philo.c utils.c monitor.c mutex.c
 
-OBJS = (SRCS)/%.c=/%.o
+OBJS = $(SRCS:.c=.o)
+
+%.o:%.c
+	$(CC) $(CFLAGS) $(OBJS)
 
 all: $(NAME)
 
-$(OBJS)/%.o: /%.c philo.h $(CC) $(CFLAGS) -I -c $< -o $@
-		@echo "Compiled $< → $@"
-
 $(NAME): $(OBJS)
-		$(CC) $(CFLAGS) $(OBJS) -o $@
+		$(CC) $(CFLAGS) $(OBJS)
 		@echo "✅ Created $(NAME)"
 
 clean:
 		@rm -f $(OBJS)
 		@echo "🧹 Removed object files"
 
-fclean:
+fclean: clean
 		@rm -f $(NAME)
 		@echo "🗑️ Removed executables"
 
 re: fclean all
+
+.PHONY: all clean fclean re
 
