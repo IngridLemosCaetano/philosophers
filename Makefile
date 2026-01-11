@@ -6,7 +6,7 @@
 #    By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/06 10:22:37 by ingrid            #+#    #+#              #
-#    Updated: 2026/01/11 13:57:14 by ingrid           ###   ########.fr        #
+#    Updated: 2026/01/11 15:35:54 by ingrid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,7 @@ NAME = philo
 
 CC = cc
 CFLAGS =  -Wall -Wextra -Werror
-
-# THREAD = -phtread
+THREAD = -pthread #adicionar quando estiver trabalhando com threads
 
 SRCS = main.c philo.c parse.c utils.c monitor.c mutex.c
 
