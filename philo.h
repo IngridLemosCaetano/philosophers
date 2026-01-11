@@ -6,7 +6,7 @@
 /*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:22:11 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/11 16:48:15 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/11 18:50:47 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,9 @@ int		is_space(char c);
 void	printf_error(char *message);
 void	printf_error_input(void);
 long	ft_atol(char *s);
+
+//mutexes
+void	init_mutexes(t_data *d)
+
 
 #endif
