@@ -6,7 +6,7 @@
 /*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:22:11 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/11 12:53:19 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/11 16:48:15 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,20 @@ typedef struct s_philo
 	pthread_t		thread;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	p_lock;
+	long			meals_eaten;
+	long			last_meal;
+	t_data			*data;
 }	t_philo;
 
 typedef struct s_data
 {
-	t_input	input;
-	t_philo	*philos;
+	t_input			input;
+	t_philo			*philos;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	death_mutex;
+	int				someone_died;
+
 }	t_data;
 
 //parse.c
