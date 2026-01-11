@@ -6,35 +6,42 @@
 #    By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/06 10:22:37 by ingrid            #+#    #+#              #
-#    Updated: 2026/01/11 13:22:01 by ingrid           ###   ########.fr        #
+#    Updated: 2026/01/11 13:57:14 by ingrid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS =  -Wall -Wextra -Werror
+
+# THREAD = -phtread
 
 SRCS = main.c philo.c parse.c utils.c monitor.c mutex.c
 
 OBJS = $(SRCS:.c=.o)
 
-%.o:%.c
-	$(CC) $(CFLAGS) $(OBJS)
+RESET =\033[0m
+GREEN =\033[1;32m
+YELLOW = \033[1;33m
+RED = \033[1;31m
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-		$(CC) $(CFLAGS) $(OBJS)
-		@echo "✅ Created $(NAME)"
+		@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+		@echo "$(GREEN)[OK]$(RESET) $(NAME) compiled successfully."
+
+%.o:%.c
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 		@rm -f $(OBJS)
-		@echo "🧹 Removed object files"
+		@echo "$(YELLOW)[CLEAN]$(RESET) Object files successfully removed."
 
 fclean: clean
 		@rm -f $(NAME)
-		@echo "🗑️ Removed executables"
+		@echo "$(RED)[FCLEAN]$(RESET) Executable '$(NAME)' Removed."
 
 re: fclean all
 
