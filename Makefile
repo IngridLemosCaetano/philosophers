@@ -6,7 +6,7 @@
 #    By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/06 10:22:37 by ingrid            #+#    #+#              #
-#    Updated: 2026/01/06 11:08:25 by ingrid           ###   ########.fr        #
+#    Updated: 2026/01/11 13:22:01 by ingrid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = philo
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS = main.c philo.c utils.c monitor.c mutex.c
+SRCS = main.c philo.c parse.c utils.c monitor.c mutex.c
 
 OBJS = $(SRCS:.c=.o)
 

@@ -6,8 +6,16 @@
 /*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:20:25 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/06 10:20:46 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/11 12:43:29 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	main(int ac, char *av[])
+{
+	t_data	d;
+
+	parse_init(ac, av, &d);
+	return (0);
+}
