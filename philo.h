@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:22:11 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/11 18:50:47 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/14 16:47:14 by ilemos-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <pthread.h>
 # include <limits.h>
 
+typedef struct s_data	t_data;
+
 typedef struct s_input
 {
 	long	n_philos;
@@ -33,11 +35,11 @@ typedef struct s_input
 typedef struct s_philo
 {
 	int				id;
+	long			meals_eaten;
+	long			last_meal;
 	pthread_t		thread;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*left_fork;
-	long			meals_eaten;
-	long			last_meal;
 	t_data			*data;
 }	t_philo;
 
@@ -45,11 +47,11 @@ typedef struct s_data
 {
 	t_input			input;
 	t_philo			*philos;
+	long			start_time;
+	int				someone_died;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	death_mutex;
-	int				someone_died;
-
 }	t_data;
 
 //parse.c
@@ -62,7 +64,6 @@ void	printf_error_input(void);
 long	ft_atol(char *s);
 
 //mutexes
-void	init_mutexes(t_data *d)
-
+void	init_mutexes(t_data *d);
 
 #endif

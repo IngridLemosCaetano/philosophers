@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:22:00 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/11 20:12:38 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/14 17:07:36 by ilemos-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,34 @@ void	init_philos(t_data *d)
 }
 
 void	*philo_routine(void *arg)
+{	
+	t_philo			*philo;
+	pthread_mutex_t	p;
+
+	philo = (t_philo *)arg;
+	// philo->last_meal = gettimeofday();
+	if (philo->id % 2 == 0)
+		usleep(1000);
+	while (!philo->data->someone_died)
+	{
+		if (philo->id % 2 == 0)
+		{
+			philo->right_fork = 1;
+			// printf("%d %d has taken a fork\n",philo->data->input, philo->id);
+			philo->left_fork = 1;			
+		}
+		else
+		{
+			philo->left_fork = 1;
+			philo->right_fork = 1;
+		}
+		pthread_mutex_lock(&p);
+		pthread_mutex_lock(philo->left_fork);
+		ft_usleep(philo->data->input.time_to_eat);
+	}
+}
+
+void	ft_usleep(long time_to_eat)
 {
-	
+	usleep(time_to_eat);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mutex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:21:56 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/11 18:56:57 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/13 16:09:18 by ilemos-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	destroy_mutexes(t_data	*d)
 	i = 0;
 	while (i < d->input.n_philos)
 	{
-		pthread_mutex_destroy(&d->forks[i])
+		pthread_mutex_destroy(&d->forks[i]);
 		i++;
 	}
 	pthread_mutex_destroy(&d->print_mutex);
