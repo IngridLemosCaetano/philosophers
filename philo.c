@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:22:00 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/14 17:07:36 by ilemos-c         ###   ########.fr       */
+/*   Updated: 2026/01/15 10:36:18 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ void	init_philos(t_data *d)
 }
 
 void	*philo_routine(void *arg)
-{	
+{
 	t_philo			*philo;
-	pthread_mutex_t	p;
+	struct	timeval	tv;
 
 	philo = (t_philo *)arg;
 	// philo->last_meal = gettimeofday();
@@ -63,18 +63,20 @@ void	*philo_routine(void *arg)
 	{
 		if (philo->id % 2 == 0)
 		{
-			philo->right_fork = 1;
-			// printf("%d %d has taken a fork\n",philo->data->input, philo->id);
-			philo->left_fork = 1;			
+			pthread_mutex_lock(philo->right_fork);
+			pthread_mutex_lock(philo->left_fork);
 		}
 		else
 		{
-			philo->left_fork = 1;
-			philo->right_fork = 1;
+			pthread_mutex_lock(philo->left_fork);
+			pthread_mutex_lock(philo->right_fork);
 		}
-		pthread_mutex_lock(&p);
-		pthread_mutex_lock(philo->left_fork);
+		philo->last_meal = gettimeofday(&tv, NULL);
 		ft_usleep(philo->data->input.time_to_eat);
+		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
+		if (philo->data->must_eat != -1)
+			philo->meals_eaten = philo->data->must_eat;
 	}
 }
 
