@@ -3,28 +3,32 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+         #
+#    By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/06 10:22:37 by ingrid            #+#    #+#              #
-#    Updated: 2026/01/14 14:42:50 by ilemos-c         ###   ########.fr        #
+#    Updated: 2026/01/15 11:07:20 by ingrid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
 CC = cc
+
+# ================= FLAGS =================
 CFLAGS =  -Wall -Wextra -Werror
 THREAD = -pthread #adicionar quando estiver trabalhando com threads
 
+# ================= FILES =================
 SRCS = main.c philo.c parse.c utils.c monitor.c mutex.c
-
 OBJS = $(SRCS:.c=.o)
 
+# ================= COLORS =================
 RESET =\033[0m
 GREEN =\033[1;32m
 YELLOW = \033[1;33m
 RED = \033[1;31m
 
+# ================= RULES =================
 all: $(NAME)
 
 $(NAME): $(OBJS)
