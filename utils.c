@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:22:07 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/11 13:09:35 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/15 19:12:34 by ilemos-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ int	is_space(char c)
 	return (0);
 }
 
-void	printf_error(char *message)
+void	print_error(char *message)
 {
 	printf("Error: %s.\n", message);
 	exit (EXIT_FAILURE);
 }
 
-void	printf_error_input(void)
+void	print_error_input(void)
 {
 	printf("Error: invalid input.\n");
 	exit (EXIT_FAILURE);
@@ -48,4 +48,9 @@ long	ft_atol(char *s)
 		i++;
 	}
 	return (nb);
+}
+
+void	print_action(t_philo *philo, char *action)
+{
+	printf("%ld %d %s\n", philo->data->start_time, philo->id, action);
 }

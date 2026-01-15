@@ -3,36 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:22:00 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/15 10:36:18 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/15 19:19:07 by ilemos-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-// void	init_philos(t_data *d)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	d->philos->last_meal = 0;
-// 	d->philos->meals_eaten = 0;
-// 	d->philos = malloc(sizeof(t_philos) * d->input.n_philos);
-// 	if (!d->philos)
-// 		printf_error("malloc philos")
-// 	while (i < d->philos->n_philos)
-// 	{
-// 		d->philos[i]->id = i + 1;
-// 		d->philos[i].right_fork = &d->forks[i];
-// 		d->philos[i].left_fork = &d->forks[(i + 1) % d->input.n_philos];
-// 		if (pthread_mutex_init(&d->philos[i], NULL) != 0)
-// 			printf_error("mutex");
-// 		d->philos[i]->meals_eaten = 0;
-// 		i++;
-// 	}
-// }
 
 void	init_philos(t_data *d)
 {
@@ -50,37 +28,65 @@ void	init_philos(t_data *d)
 	}
 }
 
-void	*philo_routine(void *arg)
+static void	*philo_routine(void *arg)
 {
 	t_philo			*philo;
-	struct	timeval	tv;
 
 	philo = (t_philo *)arg;
-	// philo->last_meal = gettimeofday();
 	if (philo->id % 2 == 0)
 		usleep(1000);
 	while (!philo->data->someone_died)
+	{		
+		take_forks(philo);
+		philo_eat(philo);
+		drop_forks(philo);
+		print_action(philo, "is sleeping");
+		ft_usleep(philo->data->input.time_to_sleep);
+		print_action(philo, "is thinking");
+	}
+	return (NULL);
+}
+
+void	create_thread(t_data *d)
+{
+	long	i;
+
+	i = 0;
+	while (i < d->input.n_philos)
 	{
-		if (philo->id % 2 == 0)
-		{
-			pthread_mutex_lock(philo->right_fork);
-			pthread_mutex_lock(philo->left_fork);
-		}
-		else
-		{
-			pthread_mutex_lock(philo->left_fork);
-			pthread_mutex_lock(philo->right_fork);
-		}
-		philo->last_meal = gettimeofday(&tv, NULL);
-		ft_usleep(philo->data->input.time_to_eat);
-		pthread_mutex_unlock(philo->right_fork);
-		pthread_mutex_unlock(philo->left_fork);
-		if (philo->data->must_eat != -1)
-			philo->meals_eaten = philo->data->must_eat;
+		if (pthread_create(&d->philos[i].thread, NULL, philo_routine,
+				&d->philos[i]) != 0)
+			print_error("thread creation failed");
+		i++;
 	}
 }
 
-void	ft_usleep(long time_to_eat)
+static void	take_forks(t_philo *philo)
 {
-	usleep(time_to_eat);
+	if (philo->id % 2 == 0)
+	{
+		pthread_mutex_lock(philo->right_fork);
+		print_action(philo, "has taken a fork");
+		pthread_mutex_lock(philo->left_fork);
+		print_action(philo, "has taken a fork");
+	}
+	else
+	{
+		pthread_mutex_lock(philo->left_fork);
+		print_action(philo, "has taken a fork");
+		pthread_mutex_lock(philo->right_fork);
+		print_action(philo, "has taken a fork");
+	}
+}
+
+static void	philo_eat(t_philo *philo)
+{
+	printf("%ld %d is eating\n", philo->data->start_time, philo->id);
+	usleep(philo->data->input.time_to_eat);
+}
+
+static void	drop_forks(t_philo *philo)
+{
+	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_unlock(philo->left_fork);
 }

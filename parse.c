@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 19:32:05 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/11 16:08:54 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/15 19:13:56 by ilemos-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ static void	validate_args(int ac, char *av[])
 
 	i = 1;
 	if (ac != 5 && ac != 6)
-		printf_error_input();
+		print_error_input();
 	while (i < ac)
 	{
 		if (!is_num(av[i]))
-			printf_error_input();
+			print_error_input();
 		i++;
 	}
 }
@@ -56,7 +56,7 @@ static long	parse_value(char *s)
 
 	value = ft_atol(s);
 	if (value <= 0 || value > INT_MAX)
-		printf_error_input();
+		print_error_input();
 	return (value);
 }
 

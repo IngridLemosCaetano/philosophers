@@ -6,7 +6,7 @@
 /*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:22:11 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/14 16:47:14 by ilemos-c         ###   ########.fr       */
+/*   Updated: 2026/01/15 19:12:53 by ilemos-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,16 @@ void	parse_init(int ac, char *av[], t_data *d);
 
 //utils.c
 int		is_space(char c);
-void	printf_error(char *message);
-void	printf_error_input(void);
+void	print_error(char *message);
+void	print_error_input(void);
+void	print_action(t_philo *philo, char *action);
 long	ft_atol(char *s);
 
 //mutexes
 void	init_mutexes(t_data *d);
+
+//philo.c
+void	init_philos(t_data *d);
+void	create_thread(t_data *d);
 
 #endif
