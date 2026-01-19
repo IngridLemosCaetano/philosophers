@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:22:11 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/15 19:12:53 by ilemos-c         ###   ########.fr       */
+/*   Updated: 2026/01/19 10:10:14 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,13 @@ long	ft_atol(char *s);
 void	init_mutexes(t_data *d);
 
 //philo.c
+int		create_thread(t_data *d);
+void	*philo_routine(void *arg);
+
+//monitor.c
+long	get_timestamp(t_data *d);
 void	init_philos(t_data *d);
-void	create_thread(t_data *d);
+void	ft_usleep(long ms, t_data *d);
+void	clear_all(t_data *d);
 
 #endif

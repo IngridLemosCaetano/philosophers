@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 19:32:05 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/15 19:13:56 by ilemos-c         ###   ########.fr       */
+/*   Updated: 2026/01/18 21:31:59 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static long	parse_value(char *s)
 
 void	parse_init(int ac, char *av[], t_data *d)
 {
+	memset(d, 0, sizeof(t_data));
 	validate_args(ac, av);
 	d->input.n_philos = parse_value(av[1]);
 	d->input.time_to_die = parse_value(av[2]);

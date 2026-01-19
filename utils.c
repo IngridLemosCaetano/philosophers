@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:22:07 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/15 19:12:34 by ilemos-c         ###   ########.fr       */
+/*   Updated: 2026/01/18 21:01:24 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,8 @@ long	ft_atol(char *s)
 
 void	print_action(t_philo *philo, char *action)
 {
-	printf("%ld %d %s\n", philo->data->start_time, philo->id, action);
+	pthread_mutex_lock(&philo->data->print_mutex);
+	if (!philo->data->someone_died)
+		printf("%ld %d %s\n", get_timestamp(philo->data), philo->id, action);
+	pthread_mutex_unlock(&philo->data->print_mutex);
 }
