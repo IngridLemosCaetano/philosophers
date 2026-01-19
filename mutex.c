@@ -6,7 +6,7 @@
 /*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:21:56 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/15 19:14:11 by ilemos-c         ###   ########.fr       */
+/*   Updated: 2026/01/19 17:06:44 by ilemos-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,4 @@ void	init_mutexes(t_data *d)
 			print_error("init mutex");
 		i++;
 	}
-}
-
-//rever function
-void	destroy_mutexes(t_data	*d)
-{
-	int	i;
-
-	i = 0;
-	while (i < d->input.n_philos)
-	{
-		pthread_mutex_destroy(&d->forks[i]);
-		i++;
-	}
-	pthread_mutex_destroy(&d->print_mutex);
 }

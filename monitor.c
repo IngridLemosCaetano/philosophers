@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:21:53 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/19 10:21:21 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/19 15:23:25 by ilemos-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ void	init_philos(t_data *d)
 	int	i;
 
 	i = 0;
+	d->philos = malloc(sizeof(t_philo) * d->input.n_philos);
+	if (!d->philos)
+		print_error("malloc forks fails");
 	while (i < d->input.n_philos)
 	{
 		d->philos[i].id = i + 1;
