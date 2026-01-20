@@ -6,7 +6,7 @@
 /*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:20:25 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/20 09:16:22 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/20 09:48:27 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	main(int ac, char *av[])
 		clear_all(&d);
 		return (1);
 	}
+	
 	clear_all(&d);
 	return (0);
 }
