@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   thread.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 09:15:04 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/20 09:28:45 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/20 16:15:59 by ilemos-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	create_thread(t_data *d)
+int	create_philo_threads(t_data *d)
 {
 	long	i;
 
@@ -24,13 +24,19 @@ int	create_thread(t_data *d)
 			return (1);
 		i++;
 	}
+	return (0);
+}
+
+void	join_philo_threads(t_data *d)
+{
+	int	i;
+	
 	i = 0;
 	while (i < d->input.n_philos)
 	{
 		pthread_join(d->philos[i].thread, NULL);
 		i++;
 	}
-	return (0);
 }
 
 static void	take_forks(t_philo *philo)
@@ -53,7 +59,9 @@ static void	take_forks(t_philo *philo)
 
 static void	philo_eat(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->data->death_mutex);
 	philo->last_meal = get_timestamp(philo->data);
+	pthread_mutex_unlock(&philo->data->death_mutex);
 	print_action(philo, "is eating");
 	philo->meals_eaten++;
 	ft_usleep(philo->data->input.time_to_eat, philo->data);
@@ -72,14 +80,38 @@ void	*philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
 		usleep(1000);
-	while (!philo->data->someone_died)
+	while (1)
 	{
-		print_action(philo, "is thinking");
+		// pthread_mutex_lock(&philo->data->death_mutex);
+			return NULL;
+		print_action(philo, "*");
 		take_forks(philo);
+		if (philo->data->someone_died)
+		{
+			drop_forks(philo);
+			return NULL;
+		}
 		philo_eat(philo);
 		drop_forks(philo);
+		if (philo->data->someone_died)
+			return NULL;
 		print_action(philo, "is sleeping");
 		ft_usleep(philo->data->input.time_to_sleep, philo->data);
 	}
+	// while (!philo->data->someone_died)
+	// {
+	// 	pthread_mutex_lock(&philo->data->death_mutex);
+	// 	if (philo->data->someone_died == 1)
+	// 	{
+	// 		pthread_mutex_unlock(&philo->data->death_mutex);
+	// 		return NULL;
+	// 	}
+	// 	print_action(philo, "is thinking");
+	// 	take_forks(philo);
+	// 	philo_eat(philo);
+	// 	drop_forks(philo);
+	// 	print_action(philo, "is sleeping");
+	// 	ft_usleep(philo->data->input.time_to_sleep, philo->data);
+	// }
 	return (NULL);
 }
