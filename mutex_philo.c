@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mutex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:21:56 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/19 17:06:44 by ilemos-c         ###   ########.fr       */
+/*   Updated: 2026/01/20 09:17:31 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,25 @@ void	init_mutexes(t_data *d)
 	{
 		if (pthread_mutex_init(&d->forks[i], NULL) != 0)
 			print_error("init mutex");
+		i++;
+	}
+}
+
+void	init_philos(t_data *d)
+{
+	int	i;
+
+	i = 0;
+	d->philos = malloc(sizeof(t_philo) * d->input.n_philos);
+	if (!d->philos)
+		print_error("malloc forks fails");
+	while (i < d->input.n_philos)
+	{
+		d->philos[i].id = i + 1;
+		d->philos[i].right_fork = &d->forks[i];
+		d->philos[i].left_fork = &d->forks[(i + 1) % d->input.n_philos];
+		d->philos[i].meals_eaten = 0;
+		d->philos[i].data = d;
 		i++;
 	}
 }

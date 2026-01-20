@@ -6,7 +6,7 @@
 #    By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/06 10:22:37 by ingrid            #+#    #+#              #
-#    Updated: 2026/01/15 11:07:20 by ingrid           ###   ########.fr        #
+#    Updated: 2026/01/20 09:19:28 by ingrid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CFLAGS =  -Wall -Wextra -Werror
 THREAD = -pthread #adicionar quando estiver trabalhando com threads
 
 # ================= FILES =================
-SRCS = main.c philo.c parse.c utils.c monitor.c mutex.c
+SRCS = main.c parse.c mutex_philo.c utils.c monitor.c thread.c
 OBJS = $(SRCS:.c=.o)
 
 # ================= COLORS =================
