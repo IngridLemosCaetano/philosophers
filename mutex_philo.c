@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mutex.c                                            :+:      :+:    :+:   */
+/*   mutex_philo.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:21:56 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/20 09:17:31 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/21 14:13:45 by ilemos-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	init_philos(t_data *d)
 	i = 0;
 	d->philos = malloc(sizeof(t_philo) * d->input.n_philos);
 	if (!d->philos)
-		print_error("malloc forks fails");
+		print_error("malloc philos fails");
 	while (i < d->input.n_philos)
 	{
 		d->philos[i].id = i + 1;
@@ -43,6 +43,7 @@ void	init_philos(t_data *d)
 		d->philos[i].left_fork = &d->forks[(i + 1) % d->input.n_philos];
 		d->philos[i].meals_eaten = 0;
 		d->philos[i].data = d;
+		d->philos[i].last_meal = 0;
 		i++;
 	}
 }

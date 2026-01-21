@@ -6,7 +6,7 @@
 /*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 09:15:04 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/20 16:15:59 by ilemos-c         ###   ########.fr       */
+/*   Updated: 2026/01/21 16:13:53 by ilemos-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,6 @@ void	*philo_routine(void *arg)
 		usleep(1000);
 	while (1)
 	{
-		// pthread_mutex_lock(&philo->data->death_mutex);
-			return NULL;
-		print_action(philo, "*");
 		take_forks(philo);
 		if (philo->data->someone_died)
 		{
@@ -94,24 +91,10 @@ void	*philo_routine(void *arg)
 		philo_eat(philo);
 		drop_forks(philo);
 		if (philo->data->someone_died)
-			return NULL;
+		return NULL;
 		print_action(philo, "is sleeping");
 		ft_usleep(philo->data->input.time_to_sleep, philo->data);
+		print_action(philo, "is thinking");
 	}
-	// while (!philo->data->someone_died)
-	// {
-	// 	pthread_mutex_lock(&philo->data->death_mutex);
-	// 	if (philo->data->someone_died == 1)
-	// 	{
-	// 		pthread_mutex_unlock(&philo->data->death_mutex);
-	// 		return NULL;
-	// 	}
-	// 	print_action(philo, "is thinking");
-	// 	take_forks(philo);
-	// 	philo_eat(philo);
-	// 	drop_forks(philo);
-	// 	print_action(philo, "is sleeping");
-	// 	ft_usleep(philo->data->input.time_to_sleep, philo->data);
-	// }
 	return (NULL);
 }

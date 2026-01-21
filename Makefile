@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+         #
+#    By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/06 10:22:37 by ingrid            #+#    #+#              #
-#    Updated: 2026/01/20 09:19:28 by ingrid           ###   ########.fr        #
+#    Updated: 2026/01/21 16:17:30 by ilemos-c         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC = cc
 
 # ================= FLAGS =================
 CFLAGS =  -Wall -Wextra -Werror
-THREAD = -pthread #adicionar quando estiver trabalhando com threads
+THREAD = -pthread
 
 # ================= FILES =================
 SRCS = main.c parse.c mutex_philo.c utils.c monitor.c thread.c
