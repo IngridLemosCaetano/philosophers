@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:20:25 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/20 15:05:19 by ilemos-c         ###   ########.fr       */
+/*   Updated: 2026/01/22 16:54:40 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,13 @@ void	ft_usleep(long ms, t_data *d)
 	start = get_timestamp(d);
 	while ((get_timestamp(d) - start) < ms)
 	{
+		pthread_mutex_lock(&d->death_mutex);
 		if (d->someone_died)
-			break ;
+		{
+			pthread_mutex_unlock(&d->death_mutex);
+			return ;
+		}
+		pthread_mutex_unlock(&d->death_mutex);
 		usleep(500);
 	}
 }
