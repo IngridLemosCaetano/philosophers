@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   thread.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 09:15:04 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/21 16:13:53 by ilemos-c         ###   ########.fr       */
+/*   Updated: 2026/01/22 16:57:06 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	create_philo_threads(t_data *d)
 void	join_philo_threads(t_data *d)
 {
 	int	i;
-	
+
 	i = 0;
 	while (i < d->input.n_philos)
 	{
@@ -86,12 +86,12 @@ void	*philo_routine(void *arg)
 		if (philo->data->someone_died)
 		{
 			drop_forks(philo);
-			return NULL;
+			return (NULL);
 		}
 		philo_eat(philo);
 		drop_forks(philo);
 		if (philo->data->someone_died)
-		return NULL;
+			return (NULL);
 		print_action(philo, "is sleeping");
 		ft_usleep(philo->data->input.time_to_sleep, philo->data);
 		print_action(philo, "is thinking");

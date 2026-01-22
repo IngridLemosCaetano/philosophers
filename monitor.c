@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:21:53 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/20 13:52:04 by ilemos-c         ###   ########.fr       */
+/*   Updated: 2026/01/22 16:56:49 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void	*ft_monitor(void *arg)
 {
-	t_data	*d;	
+	t_data	*d;
 	int		i;
+
 	d = (t_data *)arg;
 	while (1)
 	{
@@ -23,13 +24,13 @@ void	*ft_monitor(void *arg)
 		while (i < d->input.n_philos)
 		{
 			pthread_mutex_lock(&d->death_mutex);
-			if ((get_timestamp(d) - d->philos[i].last_meal) > 
-				d->input.time_to_die)
+			if ((get_timestamp(d) - d->philos[i].last_meal)
+				> d->input.time_to_die)
 			{
 				print_action(d->philos, "died");
 				d->someone_died = 1;
 				pthread_mutex_unlock(&d->death_mutex);
-				return	NULL;
+				return (NULL);
 			}
 			pthread_mutex_unlock(&d->death_mutex);
 			i++;
