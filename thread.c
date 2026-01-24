@@ -6,7 +6,7 @@
 /*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 09:15:04 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/24 12:35:22 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/24 17:44:07 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,29 +39,12 @@ void	join_philo_threads(t_data *d)
 	}
 }
 
-void	*philo_routine(void *arg)
+int	has_someone_died(t_data *d)
 {
-	t_philo	*philo;
+	int	status;
 
-	philo = (t_philo *)arg;
-	if (philo->id % 2 == 0)
-		usleep(1000);
-	while (!has_someone_died(philo->data))
-	{
-		take_forks(philo);
-		if (has_someone_died(philo->data))
-		{
-			drop_forks(philo);
-			return (NULL);
-		}
-		philo_eat(philo);
-		drop_forks(philo);
-		if (has_someone_died(philo->data))
-			return (NULL);
-		philo_sleep(philo);
-		if (has_someone_died(philo->data))
-			return (NULL);
-		print_action(philo, "is thinking");
-	}
-	return (NULL);
+	pthread_mutex_lock(&d->death_mutex);
+	status = d->someone_died;
+	pthread_mutex_unlock(&d->death_mutex);
+	return (status);
 }

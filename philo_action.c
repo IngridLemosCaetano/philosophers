@@ -6,13 +6,13 @@
 /*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 12:00:08 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/24 17:06:38 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/24 17:37:50 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	take_forks(t_philo *philo)
+static void	take_forks(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
 	{
@@ -30,7 +30,7 @@ void	take_forks(t_philo *philo)
 	}
 }
 
-void	philo_eat(t_philo *philo)
+static void	philo_eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->death_mutex);
 	philo->last_meal = get_timestamp(philo->data);
@@ -47,14 +47,41 @@ void	philo_eat(t_philo *philo)
 	ft_usleep(philo->data->input.time_to_eat, philo->data);
 }
 
-void	drop_forks(t_philo *philo)
+static void	drop_forks(t_philo *philo)
 {
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
 }
 
-void	philo_sleep(t_philo	*philo)
+static void	philo_sleep(t_philo	*philo)
 {
 	print_action(philo, "is sleeping");
 	ft_usleep(philo->data->input.time_to_sleep, philo->data);
+}
+
+void	*philo_routine(void *arg)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	if (philo->id % 2 == 0)
+		usleep(1000);
+	while (!has_someone_died(philo->data))
+	{
+		take_forks(philo);
+		if (has_someone_died(philo->data))
+		{
+			drop_forks(philo);
+			return (NULL);
+		}
+		philo_eat(philo);
+		drop_forks(philo);
+		if (has_someone_died(philo->data))
+			return (NULL);
+		philo_sleep(philo);
+		if (has_someone_died(philo->data))
+			return (NULL);
+		print_action(philo, "is thinking");
+	}
+	return (NULL);
 }
