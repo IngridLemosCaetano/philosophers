@@ -6,7 +6,7 @@
 /*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 12:00:08 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/24 12:02:41 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/24 17:06:38 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ void	philo_eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->death_mutex);
 	print_action(philo, "is eating");
 	philo->meals_eaten++;
+	if (philo->data->input.must_eat > 0
+		&& philo->meals_eaten == philo->data->input.must_eat)
+	{
+		pthread_mutex_lock(&philo->data->death_mutex);
+		philo->data->all_ate++;
+		pthread_mutex_unlock(&philo->data->death_mutex);
+	}
 	ft_usleep(philo->data->input.time_to_eat, philo->data);
 }
 
