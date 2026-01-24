@@ -6,7 +6,7 @@
 /*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:22:11 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/24 12:38:05 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/24 12:48:08 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ typedef struct s_data
 	pthread_mutex_t	death_mutex;
 }	t_data;
 
+//main.c
+void	clear_all(t_data *d);
+
 //parse.c
 void	parse_init(int ac, char *av[], t_data *d);
 
@@ -62,28 +65,28 @@ void	parse_init(int ac, char *av[], t_data *d);
 int		is_space(char c);
 void	print_error(char *message);
 void	print_error_input(void);
-void	print_action(t_philo *philo, char *action);
 long	ft_atol(char *s);
+void	print_action(t_philo *philo, char *action);
 
-//mutexes
+//mutex_philo
 void	init_mutexes(t_data *d);
+void	init_philos(t_data *d);
 
-//philo.c
+//philo_action.c
+void	take_forks(t_philo *philo);
+void	philo_eat(t_philo *philo);
+void	drop_forks(t_philo *philo);
+void	philo_sleep(t_philo	*philo);
+
+//thread.c
 int		create_philo_threads(t_data *d);
 void	*philo_routine(void *arg);
+void	join_philo_threads(t_data *d);
 
 //monitor.c
-long	get_timestamp(t_data *d);
-void	init_philos(t_data *d);
-void	ft_usleep(long ms, t_data *d);
-void	clear_all(t_data *d);
 void	*ft_monitor(void *arg);
-
-void	join_philo_threads(t_data *d);
 int		has_someone_died(t_data *d);
-void	philo_sleep(t_philo	*philo);
-void	drop_forks(t_philo *philo);
-void	philo_eat(t_philo *philo);
-void	take_forks(t_philo *philo);
+long	get_timestamp(t_data *d);
+void	ft_usleep(long ms, t_data *d);
 
 #endif
