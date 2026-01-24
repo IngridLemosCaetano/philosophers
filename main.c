@@ -6,7 +6,7 @@
 /*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:20:25 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/24 18:34:01 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/24 19:12:06 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,33 +38,12 @@ static void	clear_all(t_data *d)
 	}
 }
 
-static void	one_philo_case(t_data *d)
-{
-	pthread_mutex_init(&d->print_mutex, NULL);
-	pthread_mutex_init(&d->death_mutex, NULL);
-	d->start_time = get_timestamp(d);
-	pthread_mutex_lock(&d->print_mutex);
-	printf("%ld 1 has taken a fork\n", get_timestamp(d));
-	pthread_mutex_unlock(&d->print_mutex);
-	ft_usleep(d->input.time_to_die, d);
-	pthread_mutex_lock(&d->print_mutex);
-	printf("%ld 1 died\n", get_timestamp(d));
-	pthread_mutex_unlock(&d->print_mutex);
-	pthread_mutex_destroy(&d->print_mutex);
-	pthread_mutex_destroy(&d->death_mutex);
-}
-
 int	main(int ac, char *av[])
 {
 	t_data		d;
 	pthread_t	monitor;
 
 	parse_init(ac, av, &d);
-	if (d.input.n_philos == 1)
-	{
-		one_philo_case(&d);
-		return (0);
-	}
 	init_mutexes(&d);
 	init_philos(&d);
 	d.start_time = get_timestamp(&d);
@@ -76,4 +55,14 @@ int	main(int ac, char *av[])
 	pthread_join(monitor, NULL);
 	clear_all(&d);
 	return (0);
+}
+
+long	get_timestamp(t_data *d)
+{
+	struct timeval	tv;
+	long			time;
+
+	gettimeofday(&tv, NULL);
+	time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000) - d->start_time;
+	return (time);
 }

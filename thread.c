@@ -6,7 +6,7 @@
 /*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 09:15:04 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/24 17:44:07 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/24 19:10:31 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,48 @@ void	join_philo_threads(t_data *d)
 	}
 }
 
-int	has_someone_died(t_data *d)
+static void	one_philo_routine(t_philo *philo)
 {
-	int	status;
+	pthread_mutex_lock(philo->right_fork);
+	print_action(philo, "has taken a fork");
+	while (!has_someone_died(philo->data))
+		usleep(200);
+	pthread_mutex_unlock(philo->right_fork);
+}
 
-	pthread_mutex_lock(&d->death_mutex);
-	status = d->someone_died;
-	pthread_mutex_unlock(&d->death_mutex);
-	return (status);
+static void	philo_loop(t_philo *philo)
+{
+	if (philo->id % 2 == 0)
+		usleep(1000);
+	while (!has_someone_died(philo->data))
+	{
+		take_forks(philo);
+		if (has_someone_died(philo->data))
+		{
+			drop_forks(philo);
+			return ;
+		}
+		philo_eat(philo);
+		drop_forks(philo);
+		if (has_someone_died(philo->data))
+			return ;
+		philo_sleep(philo);
+		if (has_someone_died(philo->data))
+			return ;
+		print_action(philo, "is thinking");
+	}
+}
+
+void	*philo_routine(void *arg)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	if (philo->data->input.n_philos == 1)
+	{
+		one_philo_routine(philo);
+		return (NULL);
+	}
+	philo_loop(philo);
+	return (NULL);
 }

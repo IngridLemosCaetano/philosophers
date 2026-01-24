@@ -6,7 +6,7 @@
 /*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:22:11 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/24 17:40:23 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/24 19:16:37 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	print_error_input(void);
 long	ft_atol(char *s);
 void	print_action(t_philo *philo, char *action);
 
-//mutex_philo
+//init_mutex_philo
 void	init_mutexes(t_data *d);
 void	init_philos(t_data *d);
 
@@ -73,11 +73,18 @@ void	init_philos(t_data *d);
 int		create_philo_threads(t_data *d);
 void	*philo_routine(void *arg);
 void	join_philo_threads(t_data *d);
-int		has_someone_died(t_data *d);
 
 //monitor.c
 void	*ft_monitor(void *arg);
-long	get_timestamp(t_data *d);
 void	ft_usleep(long ms, t_data *d);
+int		has_someone_died(t_data *d);
+
+//philo_action.c
+void	take_forks(t_philo *philo);
+void	philo_eat(t_philo *philo);
+void	drop_forks(t_philo *philo);
+void	philo_sleep(t_philo	*philo);
+
+long	get_timestamp(t_data *d);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:21:53 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/24 17:34:31 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/24 19:12:00 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	check_all_ate(t_data *d)
 	{
 		d->someone_died = 1;
 		pthread_mutex_unlock(&d->death_mutex);
-		printf("All philosophers have eaten enough\n");
+		printf("All the philosophers have eaten enough.\n");
 		return (1);
 	}
 	pthread_mutex_unlock(&d->death_mutex);
@@ -62,18 +62,8 @@ void	*ft_monitor(void *arg)
 			return (NULL);
 		if (check_death(d))
 			return (NULL);
-		usleep(200);
+		// usleep(100);
 	}
-}
-
-long	get_timestamp(t_data *d)
-{
-	struct timeval	tv;
-	long			time;
-
-	gettimeofday(&tv, NULL);
-	time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000) - d->start_time;
-	return (time);
 }
 
 void	ft_usleep(long ms, t_data *d)
@@ -90,6 +80,16 @@ void	ft_usleep(long ms, t_data *d)
 			return ;
 		}
 		pthread_mutex_unlock(&d->death_mutex);
-		usleep(500);
+		usleep(200);
 	}
+}
+
+int	has_someone_died(t_data *d)
+{
+	int	status;
+
+	pthread_mutex_lock(&d->death_mutex);
+	status = d->someone_died;
+	pthread_mutex_unlock(&d->death_mutex);
+	return (status);
 }
