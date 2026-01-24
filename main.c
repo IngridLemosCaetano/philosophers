@@ -6,7 +6,7 @@
 /*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:20:25 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/22 16:54:40 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/24 12:32:24 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,34 +29,6 @@ int	main(int ac, char *av[])
 	pthread_join(monitor, NULL);
 	clear_all(&d);
 	return (0);
-}
-
-long	get_timestamp(t_data *d)
-{
-	struct timeval	tv;
-	long			time;
-
-	gettimeofday(&tv, NULL);
-	time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000) - d->start_time;
-	return (time);
-}
-
-void	ft_usleep(long ms, t_data *d)
-{
-	long	start;
-
-	start = get_timestamp(d);
-	while ((get_timestamp(d) - start) < ms)
-	{
-		pthread_mutex_lock(&d->death_mutex);
-		if (d->someone_died)
-		{
-			pthread_mutex_unlock(&d->death_mutex);
-			return ;
-		}
-		pthread_mutex_unlock(&d->death_mutex);
-		usleep(500);
-	}
 }
 
 void	clear_all(t_data *d)

@@ -6,7 +6,7 @@
 /*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:21:53 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/22 16:56:49 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/24 12:33:33 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,54 @@ void	*ft_monitor(void *arg)
 			if ((get_timestamp(d) - d->philos[i].last_meal)
 				> d->input.time_to_die)
 			{
-				print_action(d->philos, "died");
 				d->someone_died = 1;
 				pthread_mutex_unlock(&d->death_mutex);
+				pthread_mutex_lock(&d->print_mutex);
+				printf("%ld %d died\n", get_timestamp(d), d->philos[i].id);
+				pthread_mutex_unlock(&d->print_mutex);
 				return (NULL);
 			}
 			pthread_mutex_unlock(&d->death_mutex);
 			i++;
 		}
-		usleep(1000);
+		usleep(200);
+	}
+}
+
+int	has_someone_died(t_data *d)
+{
+	int	ret;
+
+	pthread_mutex_lock(&d->death_mutex);
+	ret = d->someone_died;
+	pthread_mutex_unlock(&d->death_mutex);
+	return (ret);
+}
+
+long	get_timestamp(t_data *d)
+{
+	struct timeval	tv;
+	long			time;
+
+	gettimeofday(&tv, NULL);
+	time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000) - d->start_time;
+	return (time);
+}
+
+void	ft_usleep(long ms, t_data *d)
+{
+	long	start;
+
+	start = get_timestamp(d);
+	while ((get_timestamp(d) - start) < ms)
+	{
+		pthread_mutex_lock(&d->death_mutex);
+		if (d->someone_died)
+		{
+			pthread_mutex_unlock(&d->death_mutex);
+			return ;
+		}
+		pthread_mutex_unlock(&d->death_mutex);
+		usleep(500);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 19:32:05 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/18 21:31:59 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/24 12:34:30 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,12 @@ void	parse_init(int ac, char *av[], t_data *d)
 	d->input.time_to_die = parse_value(av[2]);
 	d->input.time_to_eat = parse_value(av[3]);
 	d->input.time_to_sleep = parse_value(av[4]);
+	d->someone_died = 0;
 	if (ac == 6)
+	{
 		d->input.must_eat = parse_value(av[5]);
+		d->all_ate = 0;
+	}
 	else
 		d->input.must_eat = -1;
 }

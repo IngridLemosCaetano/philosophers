@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:22:11 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/21 14:12:59 by ilemos-c         ###   ########.fr       */
+/*   Updated: 2026/01/24 12:38:05 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ typedef struct s_input
 typedef struct s_philo
 {
 	int				id;
-	long			meals_eaten;
-	long			last_meal;
 	pthread_t		thread;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*left_fork;
+	long			last_meal;
+	long			meals_eaten;
 	t_data			*data;
 }	t_philo;
 
@@ -49,6 +49,7 @@ typedef struct s_data
 	t_philo			*philos;
 	long			start_time;
 	int				someone_died;
+	int				all_ate;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	death_mutex;
@@ -79,5 +80,10 @@ void	clear_all(t_data *d);
 void	*ft_monitor(void *arg);
 
 void	join_philo_threads(t_data *d);
+int		has_someone_died(t_data *d);
+void	philo_sleep(t_philo	*philo);
+void	drop_forks(t_philo *philo);
+void	philo_eat(t_philo *philo);
+void	take_forks(t_philo *philo);
 
 #endif

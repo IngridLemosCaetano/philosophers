@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mutex_philo.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:21:56 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/21 14:13:45 by ilemos-c         ###   ########.fr       */
+/*   Updated: 2026/01/24 12:34:02 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	init_philos(t_data *d)
 		d->philos[i].left_fork = &d->forks[(i + 1) % d->input.n_philos];
 		d->philos[i].meals_eaten = 0;
 		d->philos[i].data = d;
-		d->philos[i].last_meal = 0;
+		d->philos[i].last_meal = d->start_time;
 		i++;
 	}
 }
