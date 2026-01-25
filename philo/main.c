@@ -45,8 +45,8 @@ int	main(int ac, char *av[])
 
 	parse_init(ac, av, &d);
 	init_mutexes(&d);
-	d.start_time = get_timestamp(&d);
 	init_philos(&d);
+	d.start_time = get_timestamp(&d);
 	if (pthread_create(&monitor, NULL, ft_monitor, &d) != 0)
 		return (1);
 	if (create_philo_threads(&d) != 0)
