@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:20:25 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/24 19:12:06 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/25 16:28:19 by ilemos-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ int	main(int ac, char *av[])
 
 	parse_init(ac, av, &d);
 	init_mutexes(&d);
-	init_philos(&d);
 	d.start_time = get_timestamp(&d);
+	init_philos(&d);
 	if (pthread_create(&monitor, NULL, ft_monitor, &d) != 0)
 		return (1);
 	if (create_philo_threads(&d) != 0)
