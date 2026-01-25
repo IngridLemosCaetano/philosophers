@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:21:53 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/24 19:12:00 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/25 14:07:53 by ilemos-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	*ft_monitor(void *arg)
 			return (NULL);
 		if (check_death(d))
 			return (NULL);
-		// usleep(100);
+		usleep(1000);
 	}
 }
 
