@@ -26,6 +26,10 @@ void	init_mutexes(t_data *d)
 			print_error("init mutex");
 		i++;
 	}
+	if (pthread_mutex_init(&d->print_mutex, NULL) != 0)
+		print_error("init mutex");
+	if (pthread_mutex_init(&d->death_mutex, NULL) != 0)
+		print_error("init mutex");
 }
 
 void	init_philos(t_data *d)
