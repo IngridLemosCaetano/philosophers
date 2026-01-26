@@ -62,7 +62,6 @@ void	*ft_monitor(void *arg)
 			return (NULL);
 		if (check_death(d))
 			return (NULL);
-		usleep(1000);
 	}
 }
 
@@ -80,7 +79,7 @@ void	ft_usleep(long ms, t_data *d)
 			return ;
 		}
 		pthread_mutex_unlock(&d->death_mutex);
-		usleep(200);
+		usleep(1000);
 	}
 }
 
