@@ -29,6 +29,34 @@ void	take_forks(t_philo *philo)
 		print_action(philo, "has taken a fork");
 	}
 }
+/*
+void	*take_forks(t_philo *p)
+{
+	pthread_mutex_t	*first_fork;
+	pthread_mutex_t	*second_fork;
+
+	if (p->left_fork < p->right_fork)
+	{
+		first_fork = p->left_fork;
+		second_fork = p->right_fork;
+	}
+	else
+	{
+		first_fork = p->right_fork;
+		second_fork = p->left_fork;
+	}
+	pthread_mutex_lock(first_fork);
+	print_action(p, "has taken a fork");
+	if (p->data->input.n_philos == 1)
+	{
+		ft_usleep(p->data->input.time_to_die, p->data);
+		pthread_mutex_unlock(first_fork);
+		return (NULL);
+	}
+	pthread_mutex_lock(second_fork);
+	print_action(p, "has taken a fork");
+	return (NULL);
+}*/
 
 void	philo_eat(t_philo *philo)
 {
