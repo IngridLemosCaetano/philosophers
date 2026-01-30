@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mutex_philo.c                                      :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:21:56 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/24 12:34:02 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/30 16:19:57 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ void	init_mutexes(t_data *d)
 	while (i < d->input.n_philos)
 	{
 		if (pthread_mutex_init(&d->forks[i], NULL) != 0)
-			print_error("init mutex");
+			print_error("Fails init fork mutex");
 		i++;
 	}
 	if (pthread_mutex_init(&d->print_mutex, NULL) != 0)
-		print_error("init mutex");
+		print_error("Fails init print_mutex");
 	if (pthread_mutex_init(&d->death_mutex, NULL) != 0)
-		print_error("init mutex");
+		print_error("Fails init death_mutex");
 }
 
 void	init_philos(t_data *d)
@@ -47,7 +47,27 @@ void	init_philos(t_data *d)
 		d->philos[i].left_fork = &d->forks[(i + 1) % d->input.n_philos];
 		d->philos[i].meals_eaten = 0;
 		d->philos[i].data = d;
-		d->philos[i].last_meal = d->start_time;
+		d->philos[i].last_meal = 0;
+		if (pthread_mutex_init(&d->philos[i].meal_mutex, NULL) != 0)
+			print_error("Fails init meal_mutex");
 		i++;
 	}
+}
+
+long	get_timestamp(t_data *d)
+{
+	long	time;
+
+	time = get_timestamp_ms() - d->start_time;
+	return (time);
+}
+
+long	get_timestamp_ms(void)
+{
+	struct timeval	tv;
+	long			time;
+
+	gettimeofday(&tv, NULL);
+	time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	return (time);
 }

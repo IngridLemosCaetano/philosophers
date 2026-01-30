@@ -6,7 +6,7 @@
 /*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:22:07 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/24 19:16:31 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/29 15:00:00 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,11 @@ long	ft_atol(char *s)
 
 void	print_action(t_philo *philo, char *action)
 {
+	int	alive;
+
+	alive = has_someone_died(philo->data);
 	pthread_mutex_lock(&philo->data->print_mutex);
-	if (!philo->data->someone_died)
+	if (!alive)
 		printf("%ld %d %s\n", get_timestamp(philo->data), philo->id, action);
 	pthread_mutex_unlock(&philo->data->print_mutex);
 }

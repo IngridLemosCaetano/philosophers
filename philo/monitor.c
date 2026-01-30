@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilemos-c <ilemos-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 10:21:53 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/25 14:07:53 by ilemos-c         ###   ########.fr       */
+/*   Updated: 2026/01/30 16:06:13 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ static int	check_all_ate(t_data *d)
 	{
 		d->someone_died = 1;
 		pthread_mutex_unlock(&d->death_mutex);
+		pthread_mutex_lock(&d->print_mutex);
 		printf("All the philosophers have eaten enough.\n");
+		pthread_mutex_unlock(&d->print_mutex);
 		return (1);
 	}
 	pthread_mutex_unlock(&d->death_mutex);
@@ -30,14 +32,18 @@ static int	check_all_ate(t_data *d)
 
 static int	check_death(t_data *d)
 {
-	int	i;
+	int		i;
+	long	last_meal;
 
 	i = 0;
 	while (i < d->input.n_philos)
 	{
-		pthread_mutex_lock(&d->death_mutex);
-		if ((get_timestamp(d) - d->philos[i].last_meal) > d->input.time_to_die)
+		pthread_mutex_lock(&d->philos[i].meal_mutex);
+		last_meal = d->philos[i].last_meal;
+		pthread_mutex_unlock(&d->philos[i].meal_mutex);
+		if ((get_timestamp(d) - last_meal) > d->input.time_to_die)
 		{
+			pthread_mutex_lock(&d->death_mutex);
 			d->someone_died = 1;
 			pthread_mutex_unlock(&d->death_mutex);
 			pthread_mutex_lock(&d->print_mutex);
@@ -45,7 +51,6 @@ static int	check_death(t_data *d)
 			pthread_mutex_unlock(&d->print_mutex);
 			return (1);
 		}
-		pthread_mutex_unlock(&d->death_mutex);
 		i++;
 	}
 	return (0);
@@ -62,6 +67,7 @@ void	*ft_monitor(void *arg)
 			return (NULL);
 		if (check_death(d))
 			return (NULL);
+		usleep(200);
 	}
 }
 
@@ -72,14 +78,9 @@ void	ft_usleep(long ms, t_data *d)
 	start = get_timestamp(d);
 	while ((get_timestamp(d) - start) < ms)
 	{
-		pthread_mutex_lock(&d->death_mutex);
-		if (d->someone_died)
-		{
-			pthread_mutex_unlock(&d->death_mutex);
+		if (has_someone_died(d))
 			return ;
-		}
-		pthread_mutex_unlock(&d->death_mutex);
-		usleep(1000);
+		usleep(200);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: ingrid <ingrid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 09:15:04 by ingrid            #+#    #+#             */
-/*   Updated: 2026/01/24 19:10:31 by ingrid           ###   ########.fr       */
+/*   Updated: 2026/01/30 16:09:41 by ingrid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,48 +39,44 @@ void	join_philo_threads(t_data *d)
 	}
 }
 
-static void	one_philo_routine(t_philo *philo)
+static void	destroy_forks(t_data *d)
 {
-	pthread_mutex_lock(philo->right_fork);
-	print_action(philo, "has taken a fork");
-	while (!has_someone_died(philo->data))
-		usleep(200);
-	pthread_mutex_unlock(philo->right_fork);
+	int	i;
+
+	i = 0;
+	if (!d->forks)
+		return ;
+	while (i < d->input.n_philos)
+	{
+		pthread_mutex_destroy(&d->forks[i]);
+		i++;
+	}
+	free(d->forks);
+	d->forks = NULL;
 }
 
-static void	philo_loop(t_philo *philo)
+static void	destroy_philos(t_data *d)
 {
-	if (philo->id % 2 == 0)
-		usleep(1000);
-	while (!has_someone_died(philo->data))
+	int	i;
+
+	if (!d->forks)
+		return ;
+	i = 0;
+	while (i < d->input.n_philos)
 	{
-		take_forks(philo);
-		if (has_someone_died(philo->data))
-		{
-			drop_forks(philo);
-			return ;
-		}
-		philo_eat(philo);
-		drop_forks(philo);
-		if (has_someone_died(philo->data))
-			return ;
-		philo_sleep(philo);
-		if (has_someone_died(philo->data))
-			return ;
-		print_action(philo, "is thinking");
+		pthread_mutex_destroy(&d->philos[i].meal_mutex);
+		i++;
 	}
+	free(d->philos);
+	d->philos = NULL;
 }
 
-void	*philo_routine(void *arg)
+void	clear_all(t_data *d)
 {
-	t_philo	*philo;
-
-	philo = (t_philo *)arg;
-	if (philo->data->input.n_philos == 1)
-	{
-		one_philo_routine(philo);
-		return (NULL);
-	}
-	philo_loop(philo);
-	return (NULL);
+	if (!d)
+		return ;
+	destroy_forks(d);
+	destroy_philos(d);
+	pthread_mutex_destroy(&d->print_mutex);
+	pthread_mutex_destroy(&d->death_mutex);
 }
