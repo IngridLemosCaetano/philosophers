@@ -32,7 +32,7 @@ RED = \033[1;31m
 all: $(NAME)
 
 $(NAME): $(OBJS)
-		@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+		@$(CC) $(CFLAGS) $(THREAD) $(OBJS) -o $(NAME)
 		@echo "$(GREEN)[OK]$(RESET) $(NAME) compiled successfully."
 
 %.o:%.c
