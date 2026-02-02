@@ -59,7 +59,7 @@ static void	destroy_philos(t_data *d)
 {
 	int	i;
 
-	if (!d->forks)
+	if (!d->philos)
 		return ;
 	i = 0;
 	while (i < d->input.n_philos)
